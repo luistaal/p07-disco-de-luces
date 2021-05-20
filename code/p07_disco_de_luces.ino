@@ -1,12 +1,13 @@
 #include <FastLED.h>
 
-#define NUM_LEDS 30
-#define DATA_PIN 2
-#define PIN_BUTTON_1 3
-#define DELAY_TIME 1000
+const uint8_t NUM_LEDS = 30;
+const uint8_t DATA_PIN = 2;
+const uint8_t PIN_BUTTON_1 = 3;
+const uint16_t DELAY_TIME = 1000;
+const uint8_t BRIGHTNESS = 100;
 
-int buttonState = 0;
-int count = -1;
+uint8_t buttonState = 0;
+int8_t count = -1;
 
 CRGB leds[NUM_LEDS];
 
@@ -20,9 +21,8 @@ enum {
 void setup()
 {
   FastLED.addLeds<WS2812B, DATA_PIN>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);
   pinMode(PIN_BUTTON_1, INPUT);
-
-  FastLED.setBrightness(2);
 }
 
 void loop()
@@ -38,24 +38,19 @@ void loop()
 
     delay(DELAY_TIME);
 
-    if (count == 0)
-    {
-      colorLeds(MORADO);
-    }
-
-    if (count == 1)
-    {
-      colorLeds(VERDE);
-    }
-
-    if (count == 2)
-    {
-      colorLeds(ROSA);
-    }
-
-    if (count == 3)
-    {
-      colorLeds(AZUL);
+    switch (count) {
+      case 0:
+        colorLeds(MORADO);
+        break;
+      case 1:
+        colorLeds(VERDE);
+        break;
+      case 2:
+        colorLeds(ROSA);
+        break;
+      case 3:
+        colorLeds(AZUL);
+        break;
     }
   }
 }

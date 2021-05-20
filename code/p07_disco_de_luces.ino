@@ -10,19 +10,19 @@ int count = -1;
 
 CRGB leds[NUM_LEDS];
 
-enum colores {
-  morado = "0, 255, 0",
-  verde = "255, 0, 0",
-  rosa = "51, 255, 153",
-  azul = "187, 153, 255"
-}
+enum {
+  MORADO,
+  VERDE,
+  ROSA,
+  AZUL
+};
 
 void setup()
 {
   FastLED.addLeds<WS2812B, DATA_PIN>(leds, NUM_LEDS);
   pinMode(PIN_BUTTON_1, INPUT);
 
-  FastLED.setBrightness(100);
+  FastLED.setBrightness(2);
 }
 
 void loop()
@@ -38,63 +38,52 @@ void loop()
 
     delay(DELAY_TIME);
 
-    // Color morado
     if (count == 0)
     {
-      FastLED.clear();
-
-      for (int dot = 0; dot < NUM_LEDS; dot++)
-      {
-        if (dot % 2 == 0)
-        {
-          leds[dot].setRGB(0, 255, 0);
-        }
-        else
-        {
-          leds[dot].setRGB(0, 0, 255);
-        }
-      }
-
-      FastLED.show();
+      colorLeds(MORADO);
     }
 
-    // Color verde suave
     if (count == 1)
     {
-      FastLED.clear();
-
-      for (int dot = 0; dot < NUM_LEDS; dot++)
-      {
-        leds[dot].setRGB(colores.verde);
-      }
-
-      FastLED.show();
+      colorLeds(VERDE);
     }
 
-    // Rosa
     if (count == 2)
     {
-      FastLED.clear();
-
-      for (int dot = 0; dot < NUM_LEDS; dot++)
-      {
-        leds[dot].setRGB(51, 255, 153);
-      }
-
-      FastLED.show();
+      colorLeds(ROSA);
     }
 
-    // Azul suave
     if (count == 3)
     {
-      FastLED.clear();
-
-      for (int dot = 0; dot < NUM_LEDS; dot++)
-      {
-        leds[dot].setRGB(187, 153, 255);
-      }
-
-      FastLED.show();
+      colorLeds(AZUL);
     }
   }
+}
+
+void colorLeds(int color) {
+  switch (color) {
+    case MORADO:
+      displayColor(0, 255, 0);
+      break;
+    case VERDE:
+      displayColor(255, 0, 0);
+      break;
+    case ROSA:
+      displayColor(51, 255, 153);
+      break;
+    case AZUL:
+      displayColor(187, 153, 255);
+      break;
+  }
+}
+
+void displayColor(int r, int g, int b) {
+  FastLED.clear();
+
+  for (int dot = 0; dot < NUM_LEDS; dot++)
+  {
+    leds[dot].setRGB(r, g, b);
+  }
+
+  FastLED.show();
 }
